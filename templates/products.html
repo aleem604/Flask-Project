@@ -1,0 +1,364 @@
+{% extends "base.html" %}
+
+{% block title %}Products - MyFlaskApp{% endblock %}
+
+{% block hero_title %}Our Products{% endblock %}
+{% block hero_text %}Discover our curated collection of premium products{% endblock %}
+
+{% block breadcrumb %}
+<span class="separator">/</span>
+<a href="{{ url_for('products') }}">Products</a>
+{% endblock %}
+
+{% block styles %}
+<!-- Link to separate CSS file -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/products.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Filter & Sort Section -->
+<div class="products-controls">
+    <div class="controls-left">
+        <div class="filter-group">
+            <button class="filter-btn active" data-filter="all">
+                <i class="fas fa-th-list"></i> All
+            </button>
+            <button class="filter-btn" data-filter="electronics">
+                <i class="fas fa-laptop"></i> Electronics
+            </button>
+            <button class="filter-btn" data-filter="audio">
+                <i class="fas fa-headphones"></i> Audio
+            </button>
+            <button class="filter-btn" data-filter="books">
+                <i class="fas fa-book"></i> Books
+            </button>
+            <button class="filter-btn" data-filter="accessories">
+                <i class="fas fa-watch"></i> Accessories
+            </button>
+        </div>
+    </div>
+    <div class="controls-right">
+        <div class="sort-group">
+            <label for="sortSelect"><i class="fas fa-sort"></i> Sort by:</label>
+            <select id="sortSelect" class="sort-select">
+                <option value="popular">Most Popular</option>
+                <option value="newest">Newest First</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="rating">Highest Rated</option>
+            </select>
+        </div>
+        <div class="view-group">
+            <button class="view-btn active" data-view="grid">
+                <i class="fas fa-th"></i>
+            </button>
+            <button class="view-btn" data-view="list">
+                <i class="fas fa-list"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Products Grid -->
+<div class="products-container">
+    <div class="products-grid" id="productsGrid">
+        <!-- Product Card 1 -->
+        <div class="product-card" data-category="electronics" data-price="299.99" data-rating="4.5" data-date="2026-06-01">
+            <div class="product-badge">Best Seller</div>
+            <div class="product-image">
+                <i class="fas fa-laptop"></i>
+                <div class="product-actions">
+                    <button class="action-btn wishlist-btn" onclick="toggleWishlist(this)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <button class="action-btn quick-view-btn" onclick="quickView(this)">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="product-info">
+                <span class="product-category">Electronics</span>
+                <h3 class="product-title">MacBook Pro 16"</h3>
+                <p class="product-description">16-inch Retina display, M2 Pro chip, 512GB SSD</p>
+                <div class="product-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <span class="rating-count">(4.5/5)</span>
+                </div>
+                <div class="product-price">
+                    <span class="current-price">$299.99</span>
+                    <span class="original-price">$349.99</span>
+                    <span class="discount-badge">-15%</span>
+                </div>
+                <div class="product-actions-bottom">
+                    <button class="add-to-cart" onclick="addToCart(this)">
+                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    <button class="buy-now" onclick="buyNow(this)">
+                        <i class="fas fa-bolt"></i> Buy Now
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Card 2 -->
+        <div class="product-card" data-category="audio" data-price="149.99" data-rating="5.0" data-date="2026-05-15">
+            <div class="product-badge">Top Rated</div>
+            <div class="product-image">
+                <i class="fas fa-headphones"></i>
+                <div class="product-actions">
+                    <button class="action-btn wishlist-btn" onclick="toggleWishlist(this)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <button class="action-btn quick-view-btn" onclick="quickView(this)">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="product-info">
+                <span class="product-category">Audio</span>
+                <h3 class="product-title">Sony WH-1000XM4</h3>
+                <p class="product-description">Wireless noise-canceling headphones with 30hr battery</p>
+                <div class="product-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <span class="rating-count">(5.0/5)</span>
+                </div>
+                <div class="product-price">
+                    <span class="current-price">$149.99</span>
+                </div>
+                <div class="product-actions-bottom">
+                    <button class="add-to-cart" onclick="addToCart(this)">
+                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    <button class="buy-now" onclick="buyNow(this)">
+                        <i class="fas fa-bolt"></i> Buy Now
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Card 3 -->
+        <div class="product-card" data-category="books" data-price="79.99" data-rating="4.9" data-date="2026-04-20">
+            <div class="product-badge">Popular</div>
+            <div class="product-image">
+                <i class="fas fa-book"></i>
+                <div class="product-actions">
+                    <button class="action-btn wishlist-btn" onclick="toggleWishlist(this)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <button class="action-btn quick-view-btn" onclick="quickView(this)">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="product-info">
+                <span class="product-category">Books</span>
+                <h3 class="product-title">Python Programming Guide</h3>
+                <p class="product-description">Comprehensive guide to Python 3.11 with practical examples</p>
+                <div class="product-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <span class="rating-count">(4.9/5)</span>
+                </div>
+                <div class="product-price">
+                    <span class="current-price">$79.99</span>
+                    <span class="original-price">$99.99</span>
+                    <span class="discount-badge">-20%</span>
+                </div>
+                <div class="product-actions-bottom">
+                    <button class="add-to-cart" onclick="addToCart(this)">
+                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    <button class="buy-now" onclick="buyNow(this)">
+                        <i class="fas fa-bolt"></i> Buy Now
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Card 4 -->
+        <div class="product-card" data-category="accessories" data-price="49.99" data-rating="4.7" data-date="2026-03-10">
+            <div class="product-image">
+                <i class="fas fa-watch"></i>
+                <div class="product-actions">
+                    <button class="action-btn wishlist-btn" onclick="toggleWishlist(this)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <button class="action-btn quick-view-btn" onclick="quickView(this)">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="product-info">
+                <span class="product-category">Accessories</span>
+                <h3 class="product-title">Smart Watch Pro</h3>
+                <p class="product-description">Fitness tracker with heart rate monitor and GPS</p>
+                <div class="product-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <span class="rating-count">(4.7/5)</span>
+                </div>
+                <div class="product-price">
+                    <span class="current-price">$49.99</span>
+                </div>
+                <div class="product-actions-bottom">
+                    <button class="add-to-cart" onclick="addToCart(this)">
+                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    <button class="buy-now" onclick="buyNow(this)">
+                        <i class="fas fa-bolt"></i> Buy Now
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Card 5 -->
+        <div class="product-card" data-category="electronics" data-price="899.99" data-rating="4.8" data-date="2026-02-01">
+            <div class="product-badge">New</div>
+            <div class="product-image">
+                <i class="fas fa-tv"></i>
+                <div class="product-actions">
+                    <button class="action-btn wishlist-btn" onclick="toggleWishlist(this)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <button class="action-btn quick-view-btn" onclick="quickView(this)">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="product-info">
+                <span class="product-category">Electronics</span>
+                <h3 class="product-title">4K Smart TV 65"</h3>
+                <p class="product-description">OLED display with HDR10+ and built-in streaming</p>
+                <div class="product-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    <span class="rating-count">(4.8/5)</span>
+                </div>
+                <div class="product-price">
+                    <span class="current-price">$899.99</span>
+                    <span class="original-price">$999.99</span>
+                    <span class="discount-badge">-10%</span>
+                </div>
+                <div class="product-actions-bottom">
+                    <button class="add-to-cart" onclick="addToCart(this)">
+                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    <button class="buy-now" onclick="buyNow(this)">
+                        <i class="fas fa-bolt"></i> Buy Now
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Card 6 -->
+        <div class="product-card" data-category="accessories" data-price="29.99" data-rating="4.3" data-date="2026-01-15">
+            <div class="product-image">
+                <i class="fas fa-headphones-alt"></i>
+                <div class="product-actions">
+                    <button class="action-btn wishlist-btn" onclick="toggleWishlist(this)">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <button class="action-btn quick-view-btn" onclick="quickView(this)">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="product-info">
+                <span class="product-category">Accessories</span>
+                <h3 class="product-title">Wireless Earbuds</h3>
+                <p class="product-description">True wireless earbuds with noise isolation</p>
+                <div class="product-rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <span class="rating-count">(4.3/5)</span>
+                </div>
+                <div class="product-price">
+                    <span class="current-price">$29.99</span>
+                </div>
+                <div class="product-actions-bottom">
+                    <button class="add-to-cart" onclick="addToCart(this)">
+                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    <button class="buy-now" onclick="buyNow(this)">
+                        <i class="fas fa-bolt"></i> Buy Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Load More -->
+<div class="load-more-container">
+    <button class="load-more-btn" onclick="loadMore()">
+        <i class="fas fa-sync-alt"></i> Load More Products
+    </button>
+</div>
+
+<!-- Quick View Modal -->
+<div class="modal" id="quickViewModal">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeQuickView()">&times;</span>
+        <div class="modal-body">
+            <div class="modal-image">
+                <i class="fas fa-laptop" id="modalProductIcon"></i>
+            </div>
+            <div class="modal-details">
+                <span class="modal-category" id="modalCategory">Electronics</span>
+                <h2 id="modalTitle">Product Name</h2>
+                <div class="modal-rating" id="modalRating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <span>(5.0/5)</span>
+                </div>
+                <p id="modalDescription">Product description goes here.</p>
+                <div class="modal-price">
+                    <span class="current-price" id="modalPrice">$99.99</span>
+                    <span class="original-price" id="modalOriginalPrice">$129.99</span>
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-add-to-cart" onclick="addToCartFromModal()">
+                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    <button class="modal-buy-now" onclick="buyNowFromModal()">
+                        <i class="fas fa-bolt"></i> Buy Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMessage">Item added to cart!</span>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/products.js') }}"></script>
+{% endblock %}

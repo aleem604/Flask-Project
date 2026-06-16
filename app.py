@@ -16,6 +16,10 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 def home():
     return render_template("index.html")
 
+@app.route("/products")
+def products():
+    return render_template("products.html")
+
 @app.route("/username/<name>/<int:number>")
 def user_profile(name, number):
     return render_template("user_profile.html", name=name, number=number)
