@@ -1,8 +1,450 @@
 {% extends "base.html" %}
 
-{% block title %}Contact Page{% endblock %}
+{% block title %}Contact Us - MyFlaskApp{% endblock %}
+
+{% block hero_title %}Contact Us{% endblock %}
+{% block hero_text %}We'd love to hear from you! Reach out to us for any questions, feedback, or collaboration opportunities.{% endblock %}
+
+{% block breadcrumb %}
+<span class="separator">/</span>
+<a href="{{ url_for('contact') }}">Contact</a>
+{% endblock %}
 
 {% block content %}
-    <h2>Welcome to the Contact Page</h2>
-    <p>This is the main content area.</p>
+<!-- Contact Information Section -->
+<section class="contact-info-section">
+    <div class="contact-info-grid">
+        <div class="contact-info-card">
+            <div class="contact-icon">
+                <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <h3>Visit Us</h3>
+            <p>123 Flask Street<br>Python City, PC 12345<br>United States</p>
+        </div>
+        
+        <div class="contact-info-card">
+            <div class="contact-icon">
+                <i class="fas fa-phone-alt"></i>
+            </div>
+            <h3>Call Us</h3>
+            <p>+1 (555) 123-4567</p>
+            <p>+1 (555) 987-6543</p>
+            <p class="hours">Mon-Fri: 9AM - 6PM</p>
+        </div>
+        
+        <div class="contact-info-card">
+            <div class="contact-icon">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <h3>Email Us</h3>
+            <p>info@myflaskapp.com</p>
+            <p>support@myflaskapp.com</p>
+            <p class="hours">We'll respond within 24hrs</p>
+        </div>
+        
+        <div class="contact-info-card">
+            <div class="contact-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <h3>Working Hours</h3>
+            <p>Monday - Friday: 9AM - 6PM</p>
+            <p>Saturday: 10AM - 4PM</p>
+            <p>Sunday: Closed</p>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form and Map Section -->
+<section class="contact-form-section">
+    <div class="contact-container">
+        <div class="contact-form-container">
+            <h2><i class="fas fa-paper-plane"></i> Send Us a Message</h2>
+            <p>Fill out the form below and we'll get back to you as soon as possible.</p>
+            
+            <form id="contactForm" class="contact-form" method="POST" action="{{ url_for('contact') }}">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">
+                            <i class="fas fa-user"></i> Full Name <span class="required">*</span>
+                        </label>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                        <div class="error-message" id="nameError">Please enter your name</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">
+                            <i class="fas fa-envelope"></i> Email Address <span class="required">*</span>
+                        </label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+                        <div class="error-message" id="emailError">Please enter a valid email</div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">
+                            <i class="fas fa-phone"></i> Phone Number
+                        </label>
+                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">
+                            <i class="fas fa-tag"></i> Subject <span class="required">*</span>
+                        </label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Select a subject...</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="support">Technical Support</option>
+                            <option value="sales">Sales & Partnerships</option>
+                            <option value="feedback">Feedback & Suggestions</option>
+                            <option value="bug">Report a Bug</option>
+                            <option value="careers">Careers</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <div class="error-message" id="subjectError">Please select a subject</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">
+                        <i class="fas fa-comment"></i> Message <span class="required">*</span>
+                    </label>
+                    <textarea id="message" name="message" rows="6" placeholder="Write your message here..." required></textarea>
+                    <div class="char-count"><span id="charCount">0</span> / 500 characters</div>
+                    <div class="error-message" id="messageError">Please enter a message (minimum 10 characters)</div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="agree" name="agree" required>
+                        <span class="checkmark"></span>
+                        I agree to the <a href="#" target="_blank">Privacy Policy</a> and <a href="#" target="_blank">Terms of Service</a>
+                    </label>
+                    <div class="error-message" id="agreeError">You must agree to the terms</div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                    <button type="reset" class="btn-reset">
+                        <i class="fas fa-undo"></i> Reset
+                    </button>
+                </div>
+            </form>
+            
+            <!-- Success Message -->
+            <div id="successMessage" class="success-message" style="display: none;">
+                <i class="fas fa-check-circle"></i>
+                <h3>Message Sent Successfully!</h3>
+                <p>Thank you for contacting us. We'll get back to you within 24 hours.</p>
+            </div>
+        </div>
+        
+        <div class="contact-map-container">
+            <h2><i class="fas fa-map"></i> Find Us</h2>
+            <div class="map-wrapper">
+                <!-- Google Maps Embed (replace with your actual location) -->
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3024.2219901290355!2d-74.00369368400567!3d40.71312937933038!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a316bb7ae0b%3A0xb89d1fe6bc499443!2sDowntown%20Conference%20Center!5e0!3m2!1sen!2sus!4v1644262070686!5m2!1sen!2sus" 
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+            
+            <div class="map-details">
+                <h4>📍 Our Office</h4>
+                <p>123 Flask Street, Python City, PC 12345</p>
+                <a href="https://www.google.com/maps" target="_blank" class="btn-directions">
+                    <i class="fas fa-directions"></i> Get Directions
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq-section">
+    <div class="section-header">
+        <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+        <p>Find quick answers to common questions</p>
+    </div>
+    
+    <div class="faq-container">
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>What services do you offer?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>We offer a wide range of web development services including Flask applications, API development, database integration, cloud deployment, and responsive web design. Contact us for custom solutions tailored to your needs.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>How long does it take to get a response?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>We typically respond to all inquiries within 24 hours during business days. For urgent matters, please call us directly at +1 (555) 123-4567.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>Do you offer support after project completion?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Yes! We provide ongoing support and maintenance for all our projects. We offer different support packages to meet your needs, including 24/7 emergency support.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>What are your pricing rates?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Our pricing varies depending on the project scope and requirements. We offer flexible pricing models including fixed-price projects, hourly rates, and retainer packages. Contact us for a free quote.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>Can you work with our existing codebase?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Absolutely! We're experienced in working with existing codebases and can help improve, maintain, or extend your current applications.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>Do you offer free consultations?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Yes, we offer a free 30-minute consultation to discuss your project requirements, provide initial guidance, and determine if we're the right fit for your needs.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Social Media Section -->
+<section class="social-section">
+    <div class="social-container">
+        <h2><i class="fas fa-share-alt"></i> Connect With Us</h2>
+        <p>Follow us on social media for updates, tips, and news</p>
+        
+        <div class="social-media-grid">
+            <a href="#" class="social-link facebook">
+                <i class="fab fa-facebook-f"></i>
+                <span>Facebook</span>
+            </a>
+            <a href="#" class="social-link twitter">
+                <i class="fab fa-twitter"></i>
+                <span>Twitter</span>
+            </a>
+            <a href="#" class="social-link instagram">
+                <i class="fab fa-instagram"></i>
+                <span>Instagram</span>
+            </a>
+            <a href="#" class="social-link linkedin">
+                <i class="fab fa-linkedin-in"></i>
+                <span>LinkedIn</span>
+            </a>
+            <a href="#" class="social-link github">
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+            </a>
+            <a href="#" class="social-link youtube">
+                <i class="fab fa-youtube"></i>
+                <span>YouTube</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="cta-container">
+        <h2><i class="fas fa-comments"></i> Let's Start a Conversation</h2>
+        <p>Have a project in mind? We're here to help you bring your ideas to life.</p>
+        <div class="cta-buttons">
+            <a href="#" class="btn-cta-primary">
+                <i class="fas fa-phone"></i> Call Us Now
+            </a>
+            <a href="#" class="btn-cta-secondary">
+                <i class="fas fa-calendar-plus"></i> Schedule a Meeting
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Form validation
+        const form = document.getElementById('contactForm');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const subjectInput = document.getElementById('subject');
+        const messageInput = document.getElementById('message');
+        const agreeInput = document.getElementById('agree');
+        
+        // Character counter
+        messageInput.addEventListener('input', function() {
+            const count = this.value.length;
+            document.getElementById('charCount').textContent = count;
+            if (count > 500) {
+                this.value = this.value.substring(0, 500);
+                document.getElementById('charCount').textContent = 500;
+            }
+        });
+        
+        // Form validation
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            let isValid = true;
+            
+            // Validate name
+            if (nameInput.value.trim().length < 3) {
+                document.getElementById('nameError').style.display = 'block';
+                nameInput.classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('nameError').style.display = 'none';
+                nameInput.classList.remove('error');
+            }
+            
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailInput.value)) {
+                document.getElementById('emailError').style.display = 'block';
+                emailInput.classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('emailError').style.display = 'none';
+                emailInput.classList.remove('error');
+            }
+            
+            // Validate subject
+            if (subjectInput.value === '') {
+                document.getElementById('subjectError').style.display = 'block';
+                subjectInput.classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('subjectError').style.display = 'none';
+                subjectInput.classList.remove('error');
+            }
+            
+            // Validate message
+            if (messageInput.value.trim().length < 10) {
+                document.getElementById('messageError').style.display = 'block';
+                messageInput.classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('messageError').style.display = 'none';
+                messageInput.classList.remove('error');
+            }
+            
+            // Validate agree checkbox
+            if (!agreeInput.checked) {
+                document.getElementById('agreeError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('agreeError').style.display = 'none';
+            }
+            
+            if (isValid) {
+                // Show success message
+                document.querySelector('.contact-form-container').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'block';
+                
+                // Scroll to success message
+                document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
+                
+                // Here you would typically send the form data to your server
+                console.log('Form submitted successfully!');
+                // You can add AJAX call here
+            }
+        });
+        
+        // Real-time validation on input
+        nameInput.addEventListener('input', function() {
+            if (this.value.trim().length >= 3) {
+                document.getElementById('nameError').style.display = 'none';
+                this.classList.remove('error');
+            }
+        });
+        
+        emailInput.addEventListener('input', function() {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (emailRegex.test(this.value)) {
+                document.getElementById('emailError').style.display = 'none';
+                this.classList.remove('error');
+            }
+        });
+        
+        subjectInput.addEventListener('change', function() {
+            if (this.value !== '') {
+                document.getElementById('subjectError').style.display = 'none';
+                this.classList.remove('error');
+            }
+        });
+        
+        messageInput.addEventListener('input', function() {
+            if (this.value.trim().length >= 10) {
+                document.getElementById('messageError').style.display = 'none';
+                this.classList.remove('error');
+            }
+        });
+        
+        agreeInput.addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('agreeError').style.display = 'none';
+            }
+        });
+        
+        // FAQ Accordion
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', function() {
+                const faqItem = this.parentElement;
+                const isActive = faqItem.classList.contains('active');
+                
+                // Close all FAQ items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                    item.querySelector('.faq-answer').style.maxHeight = '0';
+                });
+                
+                // Open clicked FAQ item
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                    const answer = faqItem.querySelector('.faq-answer');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                }
+            });
+        });
+        
+        // Auto-open first FAQ
+        const firstFaq = document.querySelector('.faq-item');
+        if (firstFaq) {
+            setTimeout(() => {
+                firstFaq.classList.add('active');
+                const answer = firstFaq.querySelector('.faq-answer');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            }, 500);
+        }
+    });
+</script>
 {% endblock %}

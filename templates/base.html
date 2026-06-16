@@ -3,12 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My Awesome Website{% endblock %}</title>
+    <!-- Add cache-control meta tags -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <title>{% block title %}My Flask Website{% endblock %}</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='contact.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='user.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='cart.css') }}">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
 </head>
 <body>
     <!-- HEADER SECTION -->
@@ -52,7 +67,7 @@
                         <i class="fas fa-user"></i> Profile <i class="fas fa-chevron-down"></i>
                     </a>
                     <div class="dropdown-content">
-                        <a href="{{ url_for('username', name='aleem', number=10005) }}">
+                        <a href="{{ url_for('user_profile', name='aleem', number=10005) }}">
                             <i class="fas fa-id-card"></i> View Profile
                         </a>
                         <a href="#"><i class="fas fa-cog"></i> Settings</a>
@@ -60,7 +75,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                   <a href="{{ url_for('cart') }}" class="nav-link {% if request.endpoint == 'cart' %}active{% endif %}">
                         <i class="fas fa-shopping-cart"></i> Cart <span class="badge">3</span>
                     </a>
                 </li>

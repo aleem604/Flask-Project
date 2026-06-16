@@ -1,0 +1,650 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - MyFlaskApp{% endblock %}
+
+{% block hero_title %}{{name}} Profile{% endblock %}
+{% block hero_text %}Manage your account settings and personal information{% endblock %}
+
+{% block breadcrumb %}
+<span class="separator">/</span>
+<a href="{{ url_for('user_profile', name=name, number=number) }}">Profile</a>
+{% endblock %}
+
+{% block content %}
+<!-- Profile Header Section -->
+<section class="profile-header-section">
+    <div class="profile-header">
+        <div class="profile-avatar-container">
+            <div class="profile-avatar">
+                <img src="{{ url_for('static', filename='images/avatar.jpg') }}" alt="Profile Avatar" id="profileAvatar">
+                <div class="avatar-overlay">
+                    <i class="fas fa-camera"></i>
+                    <span>Change Photo</span>
+                </div>
+            </div>
+            <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+        </div>
+        <div class="profile-header-info">
+            <h1>{{ user.name if user else 'John Doe' }}</h1>
+            <p class="profile-username">@{{ user.username if user else 'johndoe' }}</p>
+            <p class="profile-bio">{{ user.bio if user else 'Full-stack developer | Flask enthusiast | Coffee lover ☕' }}</p>
+           <div class="profile-header-stats">
+                <div class="header-stat">
+                    <span class="stat-number" data-count="125">125+</span>
+                    <span class="stat-label">Posts</span>
+                </div>
+                <div class="header-stat">
+                    <span class="stat-number" data-count="1200">1.2K</span>
+                    <span class="stat-label">Followers</span>
+                </div>
+                <div class="header-stat">
+                    <span class="stat-number" data-count="856">856</span>
+                    <span class="stat-label">Following</span>
+                </div>
+            </div>
+            <div class="profile-header-actions">
+                <button class="btn-edit-profile"><i class="fas fa-edit"></i> Edit Profile</button>
+                <button class="btn-share-profile"><i class="fas fa-share-alt"></i> Share</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Profile Navigation -->
+<section class="profile-nav-section">
+    <div class="profile-nav">
+        <button class="profile-nav-btn active" data-tab="overview">
+            <i class="fas fa-user"></i> Overview
+        </button>
+        <button class="profile-nav-btn" data-tab="posts">
+            <i class="fas fa-pen"></i> Posts
+        </button>
+        <button class="profile-nav-btn" data-tab="settings">
+            <i class="fas fa-cog"></i> Settings
+        </button>
+        <button class="profile-nav-btn" data-tab="security">
+            <i class="fas fa-shield-alt"></i> Security
+        </button>
+    </div>
+</section>
+
+<!-- Profile Content -->
+<section class="profile-content-section">
+    <!-- Overview Tab -->
+    <div class="profile-tab active" id="tab-overview">
+        <div class="profile-grid">
+            <!-- About Me Card -->
+            <div class="profile-card about-card">
+                <h3><i class="fas fa-user-circle"></i> About Me</h3>
+                <div class="about-details">
+                    <div class="about-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <div>
+                            <span class="label">Joined</span>
+                            <span class="value">January 2026</span>
+                        </div>
+                    </div>
+                    <div class="about-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <span class="label">Location</span>
+                            <span class="value">New York, USA</span>
+                        </div>
+                    </div>
+                    <div class="about-item">
+                        <i class="fas fa-briefcase"></i>
+                        <div>
+                            <span class="label">Occupation</span>
+                            <span class="value">Full-stack Developer</span>
+                        </div>
+                    </div>
+                    <div class="about-item">
+                        <i class="fas fa-globe"></i>
+                        <div>
+                            <span class="label">Website</span>
+                            <span class="value"><a href="#">myflaskapp.com</a></span>
+                        </div>
+                    </div>
+                    <div class="about-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <span class="label">Email</span>
+                            <span class="value">john@example.com</span>
+                        </div>
+                    </div>
+                    <div class="about-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <span class="label">Phone</span>
+                            <span class="value">+1 (555) 123-4567</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-social">
+                    <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-stack-overflow"></i></a>
+                </div>
+            </div>
+
+            <!-- Skills Card -->
+            <div class="profile-card skills-card">
+                <h3><i class="fas fa-code"></i> Skills & Expertise</h3>
+                <div class="skills-container">
+                    <div class="skill-item">
+                        <span class="skill-name">Python</span>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 95%;"></div>
+                        </div>
+                        <span class="skill-percent">95%</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Flask</span>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 90%;"></div>
+                        </div>
+                        <span class="skill-percent">90%</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">JavaScript</span>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 85%;"></div>
+                        </div>
+                        <span class="skill-percent">85%</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">HTML/CSS</span>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 90%;"></div>
+                        </div>
+                        <span class="skill-percent">90%</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">SQL</span>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 80%;"></div>
+                        </div>
+                        <span class="skill-percent">80%</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Docker</span>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 75%;"></div>
+                        </div>
+                        <span class="skill-percent">75%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="profile-card activity-card">
+                <h3><i class="fas fa-clock"></i> Recent Activity</h3>
+                <div class="activity-timeline">
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Updated Flask Project</h4>
+                            <p>Added new features to the web application</p>
+                            <span class="activity-time">2 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-comment"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Commented on Issue #42</h4>
+                            <p>Provided solution for database connection problem</p>
+                            <span class="activity-time">5 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Starred Repository</h4>
+                            <p>Starred the Flask-Mega-Tutorial repository</p>
+                            <span class="activity-time">1 day ago</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="activity-content">
+                            <h4>Followed 3 new people</h4>
+                            <p>Connected with fellow developers</p>
+                            <span class="activity-time">2 days ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievements -->
+            <div class="profile-card achievements-card">
+                <h3><i class="fas fa-trophy"></i> Achievements</h3>
+                <div class="achievements-grid">
+                    <div class="achievement-item">
+                        <div class="achievement-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>100+ Commits</h4>
+                        <p>Active contributor</p>
+                    </div>
+                    <div class="achievement-item">
+                        <div class="achievement-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h4>Top 10%</h4>
+                        <p>Among Flask developers</p>
+                    </div>
+                    <div class="achievement-item">
+                        <div class="achievement-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <h4>Project of the Day</h4>
+                        <p>Awarded for Flask app</p>
+                    </div>
+                    <div class="achievement-item">
+                        <div class="achievement-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <h4>Certified</h4>
+                        <p>Python Developer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Posts Tab -->
+    <div class="profile-tab" id="tab-posts">
+        <div class="posts-grid">
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-user">
+                        <img src="{{ url_for('static', filename='images/avatar.jpg') }}" alt="User">
+                        <div>
+                            <h4>John Doe</h4>
+                            <span>1 hour ago</span>
+                        </div>
+                    </div>
+                    <button class="post-menu"><i class="fas fa-ellipsis-v"></i></button>
+                </div>
+                <div class="post-content">
+                    <h3>Building RESTful APIs with Flask</h3>
+                    <p>Just published a new article on building RESTful APIs with Flask. Check it out! 🚀</p>
+                    <div class="post-tags">
+                        <span class="tag">#Flask</span>
+                        <span class="tag">#Python</span>
+                        <span class="tag">#API</span>
+                    </div>
+                </div>
+                <div class="post-stats">
+                    <span><i class="fas fa-heart"></i> 24</span>
+                    <span><i class="fas fa-comment"></i> 12</span>
+                    <span><i class="fas fa-share"></i> 8</span>
+                </div>
+            </div>
+
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-user">
+                        <img src="{{ url_for('static', filename='images/avatar.jpg') }}" alt="User">
+                        <div>
+                            <h4>John Doe</h4>
+                            <span>3 hours ago</span>
+                        </div>
+                    </div>
+                    <button class="post-menu"><i class="fas fa-ellipsis-v"></i></button>
+                </div>
+                <div class="post-content">
+                    <h3>Jinja Templates Best Practices</h3>
+                    <p>Sharing my experience with Jinja templating in Flask. These tips will save you time! 💡</p>
+                    <div class="post-tags">
+                        <span class="tag">#Jinja</span>
+                        <span class="tag">#Templates</span>
+                        <span class="tag">#Flask</span>
+                    </div>
+                </div>
+                <div class="post-stats">
+                    <span><i class="fas fa-heart"></i> 18</span>
+                    <span><i class="fas fa-comment"></i> 9</span>
+                    <span><i class="fas fa-share"></i> 5</span>
+                </div>
+            </div>
+
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-user">
+                        <img src="{{ url_for('static', filename='images/avatar.jpg') }}" alt="User">
+                        <div>
+                            <h4>John Doe</h4>
+                            <span>2 days ago</span>
+                        </div>
+                    </div>
+                    <button class="post-menu"><i class="fas fa-ellipsis-v"></i></button>
+                </div>
+                <div class="post-content">
+                    <h3>Deploying Flask Apps to Production</h3>
+                    <p>Everything you need to know about deploying Flask applications to production. Learn from my mistakes! 🛠️</p>
+                    <div class="post-tags">
+                        <span class="tag">#Deployment</span>
+                        <span class="tag">#Production</span>
+                        <span class="tag">#DevOps</span>
+                    </div>
+                </div>
+                <div class="post-stats">
+                    <span><i class="fas fa-heart"></i> 32</span>
+                    <span><i class="fas fa-comment"></i> 15</span>
+                    <span><i class="fas fa-share"></i> 12</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div class="profile-tab" id="tab-settings">
+        <div class="settings-container">
+            <div class="settings-card">
+                <h3><i class="fas fa-user-edit"></i> Personal Information</h3>
+                <form class="settings-form">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" value="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" value="johndoe">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" value="john@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Bio</label>
+                        <textarea rows="3">Full-stack developer | Flask enthusiast | Coffee lover ☕</textarea>
+                    </div>
+                    <button type="submit" class="btn-save-settings">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </form>
+            </div>
+
+            <div class="settings-card">
+                <h3><i class="fas fa-palette"></i> Preferences</h3>
+                <div class="preference-item">
+                    <div>
+                        <h4>Dark Mode</h4>
+                        <p>Switch between light and dark theme</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="preference-item">
+                    <div>
+                        <h4>Email Notifications</h4>
+                        <p>Receive email notifications for activity</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="preference-item">
+                    <div>
+                        <h4>Public Profile</h4>
+                        <p>Make your profile visible to everyone</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Security Tab -->
+    <div class="profile-tab" id="tab-security">
+        <div class="security-container">
+            <div class="security-card">
+                <h3><i class="fas fa-key"></i> Change Password</h3>
+                <form class="security-form">
+                    <div class="form-group">
+                        <label>Current Password</label>
+                        <input type="password" placeholder="Enter current password">
+                    </div>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" placeholder="Enter new password">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm New Password</label>
+                        <input type="password" placeholder="Confirm new password">
+                    </div>
+                    <button type="submit" class="btn-update-password">
+                        <i class="fas fa-key"></i> Update Password
+                    </button>
+                </form>
+            </div>
+
+            <div class="security-card">
+                <h3><i class="fas fa-shield-virus"></i> Two-Factor Authentication</h3>
+                <p>Add an extra layer of security to your account.</p>
+                <button class="btn-enable-2fa">
+                    <i class="fas fa-shield-alt"></i> Enable 2FA
+                </button>
+            </div>
+
+            <div class="security-card danger-zone">
+                <h3><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
+                <p>Once you delete your account, there is no going back.</p>
+                <button class="btn-delete-account">
+                    <i class="fas fa-trash"></i> Delete Account
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tab Navigation
+        const navBtns = document.querySelectorAll('.profile-nav-btn');
+        const tabs = document.querySelectorAll('.profile-tab');
+        
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                navBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Hide all tabs
+                tabs.forEach(tab => tab.classList.remove('active'));
+                
+                // Show selected tab
+                const tabId = this.dataset.tab;
+                document.getElementById(`tab-${tabId}`).classList.add('active');
+            });
+        });
+
+        // Avatar Upload
+        const avatarContainer = document.querySelector('.profile-avatar');
+        const avatarInput = document.getElementById('avatarUpload');
+        const avatarImage = document.getElementById('profileAvatar');
+        
+        avatarContainer.addEventListener('click', function() {
+            avatarInput.click();
+        });
+        
+        avatarInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    avatarImage.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Post Menu Dropdown
+        const postMenus = document.querySelectorAll('.post-menu');
+        postMenus.forEach(menu => {
+            menu.addEventListener('click', function(e) {
+                e.stopPropagation();
+                // Toggle a dropdown menu
+                const postCard = this.closest('.post-card');
+                // You can implement a dropdown here
+                console.log('Post menu clicked');
+            });
+        });
+
+        // Like Button Functionality
+        const likeButtons = document.querySelectorAll('.post-stats span:first-child');
+        likeButtons.forEach(like => {
+            like.style.cursor = 'pointer';
+            like.addEventListener('click', function() {
+                const icon = this.querySelector('i');
+                const count = this.textContent.trim();
+                const currentCount = parseInt(count);
+                
+                if (icon.classList.contains('fas')) {
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                    this.innerHTML = `<i class="far fa-heart"></i> ${currentCount - 1}`;
+                } else {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    this.innerHTML = `<i class="fas fa-heart"></i> ${currentCount + 1}`;
+                }
+            });
+        });
+
+        // Settings Form Submission
+        const settingsForm = document.querySelector('.settings-form');
+        if (settingsForm) {
+            settingsForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Settings saved successfully!');
+            });
+        }
+
+        // Security Form Submission
+        const securityForm = document.querySelector('.security-form');
+        if (securityForm) {
+            securityForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Password updated successfully!');
+            });
+        }
+
+        // Delete Account Confirmation
+        const deleteBtn = document.querySelector('.btn-delete-account');
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to delete your account? This action cannot be undone!')) {
+                    alert('Account deletion initiated. You will be redirected shortly.');
+                }
+            });
+        }
+
+        // 2FA Button
+        const enable2faBtn = document.querySelector('.btn-enable-2fa');
+        if (enable2faBtn) {
+            enable2faBtn.addEventListener('click', function() {
+                alert('2FA setup will begin. Check your email for verification.');
+            });
+        }
+
+        // Toggle Switches
+        const switches = document.querySelectorAll('.switch input');
+        switches.forEach(switchInput => {
+            switchInput.addEventListener('change', function() {
+                const label = this.closest('.preference-item').querySelector('h4').textContent;
+                const status = this.checked ? 'enabled' : 'disabled';
+                console.log(`${label} ${status}`);
+            });
+        });
+
+        // Edit Profile Button
+        const editProfileBtn = document.querySelector('.btn-edit-profile');
+        if (editProfileBtn) {
+            editProfileBtn.addEventListener('click', function() {
+                // Navigate to settings tab
+                document.querySelector('.profile-nav-btn[data-tab="settings"]').click();
+            });
+        }
+
+        // Share Profile Button
+        const shareProfileBtn = document.querySelector('.btn-share-profile');
+        if (shareProfileBtn) {
+            shareProfileBtn.addEventListener('click', function() {
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'Profile',
+                        text: 'Check out my profile!',
+                        url: window.location.href,
+                    }).catch(console.error);
+                } else {
+                    // Fallback
+                    const url = window.location.href;
+                    navigator.clipboard.writeText(url).then(() => {
+                        alert('Profile URL copied to clipboard!');
+                    }).catch(() => {
+                        prompt('Copy this URL:', url);
+                    });
+                }
+            });
+        }
+
+        // Animate Skill Bars on Scroll
+        const skillBars = document.querySelectorAll('.skill-progress');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const bar = entry.target;
+                    const width = bar.style.width;
+                    bar.style.width = '0%';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 100);
+                    observer.unobserve(bar);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        skillBars.forEach(bar => observer.observe(bar));
+
+        // Tab switching with keyboard support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                const activeBtn = document.querySelector('.profile-nav-btn.active');
+                const btns = Array.from(navBtns);
+                const currentIndex = btns.indexOf(activeBtn);
+                let newIndex;
+                
+                if (e.key === 'ArrowRight') {
+                    newIndex = (currentIndex + 1) % btns.length;
+                } else {
+                    newIndex = (currentIndex - 1 + btns.length) % btns.length;
+                }
+                
+                btns[newIndex].click();
+                e.preventDefault();
+            }
+        });
+
+        console.log('Profile page initialized successfully! 🚀');
+    });
+</script>
+{% endblock %}

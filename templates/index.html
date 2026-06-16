@@ -1,8 +1,219 @@
 {% extends "base.html" %}
 
-{% block title %}Home Page{% endblock %}
+{% block title %}Home - MyFlaskApp{% endblock %}
+
+{% block hero_title %}Welcome to MyFlaskApp{% endblock %}
+{% block hero_text %}Build amazing web applications with Flask, Jinja, and Python. Fast, secure, and scalable.{% endblock %}
+
+{% block breadcrumb %}
+<span class="separator">/</span>
+<span>Home</span>
+{% endblock %}
 
 {% block content %}
-    <h2>Welcome to the Home Page</h2>
-    <p>This is the main content area.</p>
+<!-- Featured Section -->
+<section class="featured-section">
+    <div class="section-header">
+        <h2><i class="fas fa-star"></i> Featured Services</h2>
+        <p>Discover what we offer</p>
+    </div>
+    
+    <div class="featured-grid">
+        <div class="featured-card">
+            <div class="card-icon">
+                <i class="fas fa-code"></i>
+            </div>
+            <h3>Web Development</h3>
+            <p>Build modern web applications with Flask, Jinja, and Python.</p>
+            <a href="#" class="card-link">Learn More <i class="fas fa-arrow-right"></i></a>
+        </div>
+        
+        <div class="featured-card">
+            <div class="card-icon">
+                <i class="fas fa-database"></i>
+            </div>
+            <h3>Database Integration</h3>
+            <p>Seamless integration with SQL, NoSQL, and cloud databases.</p>
+            <a href="#" class="card-link">Learn More <i class="fas fa-arrow-right"></i></a>
+        </div>
+        
+        <div class="featured-card">
+            <div class="card-icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <h3>Cloud Deployment</h3>
+            <p>Deploy your applications to AWS, Azure, or Google Cloud.</p>
+            <a href="#" class="card-link">Learn More <i class="fas fa-arrow-right"></i></a>
+        </div>
+        
+        <div class="featured-card">
+            <div class="card-icon">
+                <i class="fas fa-mobile-alt"></i>
+            </div>
+            <h3>Responsive Design</h3>
+            <p>Mobile-first responsive designs that work on all devices.</p>
+            <a href="#" class="card-link">Learn More <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about-section">
+    <div class="about-container">
+        <div class="about-image">
+            <i class="fas fa-rocket"></i>
+        </div>
+        <div class="about-content">
+            <h2><i class="fas fa-info-circle"></i> About Us</h2>
+            <p>We are a passionate team of developers dedicated to creating amazing web applications using Flask and modern web technologies.</p>
+            <div class="about-stats">
+                <div class="stat">
+                    <span class="stat-number">{{100}}+</span>
+                    <span class="stat-label">Projects</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Clients</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Support</span>
+                </div>
+            </div>
+            <a href="{{ url_for('about') }}" class="btn-about">Read More <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials-section">
+    <div class="section-header">
+        <h2><i class="fas fa-quote-left"></i> What Our Clients Say</h2>
+        <p>Real feedback from real people</p>
+    </div>
+    
+    <div class="testimonials-grid">
+        <div class="testimonial-card">
+            <div class="testimonial-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <p class="testimonial-text">"Amazing service! My Flask application runs smoothly and the support team is incredibly helpful."</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="author-info">
+                    <h4>John Doe</h4>
+                    <span>CEO, TechCorp</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="testimonial-card">
+            <div class="testimonial-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <p class="testimonial-text">"The best Flask development team I've worked with. They delivered a high-quality product on time."</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="author-info">
+                    <h4>Jane Smith</h4>
+                    <span>CTO, StartUp Inc</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="testimonial-card">
+            <div class="testimonial-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <p class="testimonial-text">"Professional, efficient, and creative. They transformed our idea into a beautiful web application."</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="author-info">
+                    <h4>Mike Johnson</h4>
+                    <span>Founder, DevStudio</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Blog/News Section -->
+<section class="blog-section">
+    <div class="section-header">
+        <h2><i class="fas fa-newspaper"></i> Latest News</h2>
+        <p>Stay updated with our latest posts</p>
+    </div>
+    
+    <div class="blog-grid">
+        <div class="blog-card">
+            <div class="blog-image">
+                <i class="fas fa-python"></i>
+            </div>
+            <div class="blog-content">
+                <span class="blog-date"><i class="far fa-calendar-alt"></i> June 16, 2026</span>
+                <h3>Getting Started with Flask</h3>
+                <p>Learn the basics of Flask and start building your first web application today.</p>
+                <a href="#" class="blog-link">Read More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+        
+        <div class="blog-card">
+            <div class="blog-image">
+                <i class="fas fa-js"></i>
+            </div>
+            <div class="blog-content">
+                <span class="blog-date"><i class="far fa-calendar-alt"></i> June 15, 2026</span>
+                <h3>Jinja Templating Guide</h3>
+                <p>Master Jinja templates and create dynamic, reusable HTML pages for your Flask app.</p>
+                <a href="#" class="blog-link">Read More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+        
+        <div class="blog-card">
+            <div class="blog-image">
+                <i class="fas fa-server"></i>
+            </div>
+            <div class="blog-content">
+                <span class="blog-date"><i class="far fa-calendar-alt"></i> June 14, 2026</span>
+                <h3>Deploying Flask Apps</h3>
+                <p>Learn how to deploy your Flask applications to production with best practices.</p>
+                <a href="#" class="blog-link">Read More <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="cta-container">
+        <h2><i class="fas fa-handshake"></i> Ready to Get Started?</h2>
+        <p>Join thousands of satisfied customers and start building your dream application today.</p>
+        <div class="cta-buttons">
+            <a href="{{ url_for('contact') }}" class="btn-cta-primary">
+                <i class="fas fa-envelope"></i> Contact Us
+            </a>
+            <a href="#" class="btn-cta-secondary">
+                <i class="fas fa-play"></i> Watch Demo
+            </a>
+        </div>
+    </div>
+</section>
 {% endblock %}

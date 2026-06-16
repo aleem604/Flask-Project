@@ -1,0 +1,481 @@
+/* PROFILE PAGE SPECIFIC STYLES */
+
+/* Profile Header */
+.profile-header-section {
+    margin-bottom: 2rem;
+}
+
+.profile-header {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    display: flex;
+    gap: 2.5rem;
+    align-items: flex-start;
+}
+
+.profile-avatar-container {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    border: 4px solid #fff;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.profile-avatar:hover .avatar-overlay {
+    opacity: 1;
+}
+
+.avatar-overlay i {
+    font-size: 2rem;
+    margin-bottom: 0.3rem;
+}
+
+.avatar-overlay span {
+    font-size: 0.8rem;
+}
+
+.profile-header-info {
+    flex: 1;
+}
+
+.profile-header-info h1 {
+    font-size: 2.5rem;
+    color: #1a1a2e;
+    margin-bottom: 0.2rem;
+}
+
+.profile-username {
+    color: #667eea;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.profile-bio {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.profile-header-stats {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.header-stat {
+    text-align: center;
+}
+
+.header-stat .stat-number {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a1a2e;
+}
+
+.header-stat .stat-label {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.profile-header-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-edit-profile,
+.btn-share-profile {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-edit-profile {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.btn-edit-profile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+}
+
+.btn-share-profile {
+    background: #f1f2f6;
+    color: #333;
+}
+
+.btn-share-profile:hover {
+    background: #e8e8e8;
+    transform: translateY(-3px);
+}
+
+/* Profile Navigation */
+.profile-nav-section {
+    background: white;
+    padding: 0.5rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    margin-bottom: 2rem;
+    overflow-x: auto;
+}
+
+.profile-nav {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.profile-nav-btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    background: transparent;
+    border-radius: 10px;
+    color: #666;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.profile-nav-btn:hover {
+    background: #f8f9ff;
+    color: #667eea;
+}
+
+.profile-nav-btn.active {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.profile-nav-btn i {
+    font-size: 1rem;
+}
+
+/* Profile Tabs */
+.profile-tab {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.profile-tab.active {
+    display: block;
+}
+
+/* Profile Grid */
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.profile-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.profile-card h3 {
+    color: #1a1a2e;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+}
+
+.profile-card h3 i {
+    color: #667eea;
+    margin-right: 8px;
+}
+
+.about-card {
+    grid-column: 1;
+}
+
+.skills-card {
+    grid-column: 2;
+}
+
+.activity-card {
+    grid-column: 1;
+}
+
+.achievements-card {
+    grid-column: 2;
+}
+
+/* About Details */
+.about-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.about-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.about-item i {
+    color: #667eea;
+    width: 20px;
+    margin-top: 2px;
+}
+
+.about-item .label {
+    display: block;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.about-item .value {
+    display: block;
+    color: #1a1a2e;
+    font-weight: 500;
+}
+
+.about-item .value a {
+    color: #667eea;
+    text-decoration: none;
+}
+
+.about-item .value a:hover {
+    text-decoration: underline;
+}
+
+.about-social {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.social-icon {
+    width: 40px;
+    height: 40px;
+    background: #f8f9ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #667eea;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    transform: translateY(-3px);
+}
+
+/* Skills */
+.skills-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.skill-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.skill-name {
+    width: 100px;
+    color: #1a1a2e;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.skill-bar {
+    flex: 1;
+    height: 8px;
+    background: #f1f2f6;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.skill-progress {
+    height: 100%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 10px;
+    transition: width 1.5s ease;
+}
+
+.skill-percent {
+    width: 45px;
+    color: #666;
+    font-size: 0.85rem;
+    text-align: right;
+}
+
+/* Activity Timeline */
+.activity-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.activity-item {
+    display: flex;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #f1f2f6;
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.activity-icon {
+    width: 40px;
+    height: 40px;
+    background: #f8f9ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #667eea;
+    flex-shrink: 0;
+}
+
+.activity-content h4 {
+    color: #1a1a2e;
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+}
+
+.activity-content p {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+}
+
+.activity-time {
+    color: #999;
+    font-size: 0.85rem;
+}
+
+/* Achievements */
+.achievements-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.achievement-item {
+    text-align: center;
+    padding: 1rem;
+    background: #f8f9ff;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.achievement-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.15);
+}
+
+.achievement-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.achievement-item h4 {
+    color: #1a1a2e;
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+}
+
+.achievement-item p {
+    color: #666;
+    font-size: 0.85rem;
+}
+
+/* Posts */
+.posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.post-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.post-user {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.post-user img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+}
