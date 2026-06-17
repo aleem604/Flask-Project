@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Products{% endblock %}
+
+{% block content %}
+<div class="products-page">
+    <div class="products-header">
+        <h1>Our Products</h1>
+        <div class="filters">
+            <!-- Category filter -->
+            <select id="categoryFilter">
+                <option value="">All Categories</option>
+                {% for cat in categories %}
+                <option value="{{ cat.slug }}" {% if cat.slug == current_category %}selected{% endif %}>
+                    {{ cat.name }}
+                </option>
+                {% endfor %}
+            </select>
+            
+            <!-- Sort options -->
+            <select id="sortFilter">
+                <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Newest</option>
+                <option value="popular" {% if sort == 'popular' %}selected{% endif %}>Most Popular</option>
+                <option value="price-low" {% if sort == 'price-low' %}selected{% endif %}>Price: Low to High</option>
+                <option value="price-high" {% if sort == 'price-high' %}selected{% endif %}>Price: High to Low</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="products-grid">
+        {% for product in products.items %}
+        <div class="product-card">
+            <a href="{{ url_for('products.detail', slug=product.slug) }}">
+                {% if product.main_image_url %}
+                <img src="{{ product.main_image_url }}" alt="{{ product.name }}">
+                {% else %}
+                <div class="product-placeholder">
+                    <i class="fas fa-image"></i>
+                </div>
+                {% endif %}
+                <h3>{{ product.name }}</h3>
+                <p class="price">${{ "%.2f"|format(product.price) }}</p>
+                {% if product.is_on_sale %}
+                <span class="sale-badge">Sale</span>
+                {% endif %}
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <!-- Pagination -->
+    <div class="pagination">
+        {% for page in products.iter_pages() %}
+            {% if page %}
+                <a href="{{ url_for('products.index', page=page, category=current_category, sort=sort) }}"
+                   class="{% if page == products.page %}active{% endif %}">
+                    {{ page }}
+                </a>
+            {% else %}
+                <span>...</span>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

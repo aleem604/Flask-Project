@@ -12,12 +12,12 @@
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
     <title>{% block title %}My Flask Website{% endblock %}</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='contact.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='user.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='cart.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='products.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cart.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/products.css') }}">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Google Fonts -->
@@ -54,36 +54,36 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url_for('products') }}" class="nav-link {% if request.endpoint == 'products' %}active{% endif %}">
+                    <a href="{{ url_for('products.index') }}" class="nav-link {% if 'products' in request.endpoint %}active{% endif %}">
                         <i class="fas fa-info-circle"></i> Products
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url_for('about') }}" class="nav-link {% if request.endpoint == 'about' %}active{% endif %}">
-                        <i class="fas fa-info-circle"></i> About
+                    <a href="{{ url_for('categories.index') }}" class="nav-link {% if 'categories' in request.endpoint %}active{% endif %}">
+                        <i class="fas fa-list"></i> Categories
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url_for('contact') }}" class="nav-link {% if request.endpoint == 'contact' %}active{% endif %}">
-                        <i class="fas fa-envelope"></i> Contact
+                    <a href="{{ url_for('about') }}" class="nav-link {% if 'about' in request.endpoint %}active{% endif %}">
+                        <i class="fas fa-list"></i> About
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('contact') }}" class="nav-link {% if 'contact' in request.endpoint %}active{% endif %}">
+                        <i class="fas fa-list"></i> Contact Us
                     </a>
                 </li>
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link">
-                        <i class="fas fa-user"></i> Profile <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-user"></i> Account <i class="fas fa-chevron-down"></i>
                     </a>
                     <div class="dropdown-content">
-                        <a href="{{ url_for('user_profile', name='aleem', number=10005) }}">
-                            <i class="fas fa-id-card"></i> View Profile
+                        <a href="{{ url_for('users.profile') }}">
+                            <i class="fas fa-id-card"></i> My Profile
                         </a>
                         <a href="#"><i class="fas fa-cog"></i> Settings</a>
                         <a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
-                </li>
-                <li class="nav-item">
-                   <a href="{{ url_for('cart') }}" class="nav-link {% if request.endpoint == 'cart' %}active{% endif %}">
-                        <i class="fas fa-shopping-cart"></i> Cart <span class="badge">3</span>
-                    </a>
                 </li>
             </ul>
             <div class="hamburger">

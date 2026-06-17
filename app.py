@@ -1,43 +1,99 @@
-from flask import Flask, render_template
-from livereload import Server
 import os
+from flask import Flask, render_template, jsonify
+from config import config
+from database.database import db, init_db
+from models.models import Category, Product
+from routes import categories_bp, products_bp, suppliers_bp, users_bp
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+def create_app(config_name=None):
+    """Application factory"""
+    if config_name is None:
+        config_name = os.getenv('FLASK_ENV', 'development')
+    
+    app = Flask(__name__)
+    app.config.from_object(config[config_name])
+    
+    # Initialize database
+    init_db(app)
+    
+    # Register blueprints
+    app.register_blueprint(categories_bp)
+    app.register_blueprint(products_bp)
+    app.register_blueprint(suppliers_bp)
+    app.register_blueprint(users_bp)
+    
+    # Error handlers
+    @app.errorhandler(404)
+    def not_found(error):
+        return render_template('errors/404.html'), 404
+    
+    @app.errorhandler(500)
+    def server_error(error):
+        return render_template('errors/500.html'), 500
+    
+    # Context processor
+    @app.context_processor
+    def inject_globals():
+        return {
+            'site_name': 'MyFlaskApp',
+            'version': '1.0.0'
+        }
+    
+    return app
 
-app = Flask(
-    __name__,
-    template_folder=os.path.join(BASE_DIR, "templates"),
-    static_folder=os.path.join(BASE_DIR, "static")
-)
+# Create app instance
+app = create_app()
 
-app.config["TEMPLATES_AUTO_RELOAD"] = True
-
-@app.route("/")
+@app.route('/')
 def home():
-    return render_template("index.html")
-
-@app.route("/products")
-def products():
-    return render_template("products.html")
-
-@app.route("/username/<name>/<int:number>")
-def user_profile(name, number):
-    return render_template("user_profile.html", name=name, number=number)
-
-@app.route("/contact")
-def contact():
-    return render_template("contact.html")
-
-@app.route("/about")
+    """Home page"""
+    
+    # Get featured products
+    featured_products = Product.query.filter_by(
+        is_featured=True,
+        status='published',
+        is_active=True
+    ).limit(6).all()
+    
+    # Get new arrivals
+    new_arrivals = Product.query.filter_by(
+        is_new_arrival=True,
+        status='published',
+        is_active=True
+    ).order_by(Product.created_at.desc()).limit(6).all()
+    
+    # Get categories
+    categories = Category.query.filter_by(is_active=True).limit(8).all()
+    
+    return render_template('common/index.html',
+                          featured_products=featured_products,
+                          new_arrivals=new_arrivals,
+                          categories=categories)
+    
+@app.route('/about')
 def about():
-    return render_template("about.html")
+    """About page"""
+    return render_template('common/about.html')
 
-@app.route("/cart")
-def cart():
-    return render_template("cart.html")
+@app.route('/contact')
+def contact():
+    """About page"""
+    return render_template('common/contact.html')
 
-if __name__ == "__main__":
-    app.run(
-    debug=True,
-    use_reloader=True
-)
+@app.route('/test-db')
+def test_db():
+        try:
+            categories_count = Category.query.count()
+            return jsonify({
+                'status': 'success',
+                'message': 'Database connected!',
+                'categories_count': categories_count
+            })
+        except Exception as e:
+            return jsonify({
+                'status': 'error',
+                'message': str(e)
+            }), 500
+
+if __name__ == '__main__':
+    app.run(debug=True)
