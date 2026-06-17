@@ -211,3 +211,105 @@ class Product(db.Model):
             'supplier_name': self.supplier.name if self.supplier else None,
             'supplier_id': self.supplier_id
         }
+        
+# Add the Order model
+class Order(db.Model):
+    __tablename__ = 'orders'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    order_number = db.Column(db.String(50), unique=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='SET NULL'))
+    
+    # Order details
+    total_amount = db.Column(db.Numeric(10, 2), nullable=False, default=0.00)
+    subtotal = db.Column(db.Numeric(10, 2), nullable=False, default=0.00)
+    tax = db.Column(db.Numeric(10, 2), default=0.00)
+    shipping_cost = db.Column(db.Numeric(10, 2), default=0.00)
+    discount = db.Column(db.Numeric(10, 2), default=0.00)
+    coupon_code = db.Column(db.String(50))
+    
+    # Status
+    status = db.Column(db.String(50), default='pending')  # pending, processing, shipped, delivered, cancelled, refunded
+    payment_status = db.Column(db.String(50), default='pending')  # pending, paid, failed, refunded
+    payment_method = db.Column(db.String(50))
+    
+    # Shipping
+    shipping_address = db.Column(JSONB, default={})
+    billing_address = db.Column(JSONB, default={})
+    tracking_number = db.Column(db.String(100))
+    shipping_method = db.Column(db.String(50))
+    
+    # Dates
+    order_date = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    shipped_at = db.Column(db.DateTime)
+    delivered_at = db.Column(db.DateTime)
+    cancelled_at = db.Column(db.DateTime)
+    
+    # Notes
+    customer_notes = db.Column(db.Text)
+    admin_notes = db.Column(db.Text)
+    
+    # Relationships
+    user = db.relationship('User', backref='orders', lazy='joined')
+    items = db.relationship('OrderItem', backref='order', lazy='dynamic', cascade='all, delete-orphan')
+    
+    def __repr__(self):
+        return f'<Order {self.order_number}>'
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'order_number': self.order_number,
+            'user_id': self.user_id,
+            'user_name': self.user.full_name if self.user else None,
+            'total_amount': float(self.total_amount) if self.total_amount else 0,
+            'subtotal': float(self.subtotal) if self.subtotal else 0,
+            'tax': float(self.tax) if self.tax else 0,
+            'shipping_cost': float(self.shipping_cost) if self.shipping_cost else 0,
+            'discount': float(self.discount) if self.discount else 0,
+            'status': self.status,
+            'payment_status': self.payment_status,
+            'payment_method': self.payment_method,
+            'shipping_address': self.shipping_address,
+            'tracking_number': self.tracking_number,
+            'order_date': self.order_date.isoformat() if self.order_date else None,
+            'shipped_at': self.shipped_at.isoformat() if self.shipped_at else None,
+            'delivered_at': self.delivered_at.isoformat() if self.delivered_at else None,
+            'items_count': self.items.count()
+        }
+
+class OrderItem(db.Model):
+    __tablename__ = 'order_items'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    order_id = db.Column(db.Integer, db.ForeignKey('orders.id', ondelete='CASCADE'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id', ondelete='SET NULL'))
+    
+    # Product details (snapshot at time of order)
+    product_name = db.Column(db.String(255), nullable=False)
+    product_sku = db.Column(db.String(100), nullable=False)
+    product_price = db.Column(db.Numeric(10, 2), nullable=False, default=0.00)
+    quantity = db.Column(db.Integer, nullable=False, default=1)
+    total_price = db.Column(db.Numeric(10, 2), nullable=False, default=0.00)
+    
+    # Product attributes (snapshot)
+    product_attributes = db.Column(JSONB, default={})
+    
+    # Relationships
+    product = db.relationship('Product', backref='order_items', lazy='joined')
+    
+    def __repr__(self):
+        return f'<OrderItem {self.product_name} x{self.quantity}>'
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'order_id': self.order_id,
+            'product_id': self.product_id,
+            'product_name': self.product_name,
+            'product_sku': self.product_sku,
+            'product_price': float(self.product_price) if self.product_price else 0,
+            'quantity': self.quantity,
+            'total_price': float(self.total_price) if self.total_price else 0
+        }

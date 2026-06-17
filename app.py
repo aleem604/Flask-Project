@@ -1,9 +1,9 @@
 import os
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify  # type: ignore[import]
 from config import config
 from database.database import db, init_db
 from models.models import Category, Product
-from routes import categories_bp, products_bp, suppliers_bp, users_bp
+from routes import categories_bp, products_bp, suppliers_bp, users_bp, home_bp
 
 def create_app(config_name=None):
     """Application factory"""
@@ -21,6 +21,7 @@ def create_app(config_name=None):
     app.register_blueprint(products_bp)
     app.register_blueprint(suppliers_bp)
     app.register_blueprint(users_bp)
+    app.register_blueprint(home_bp)
     
     # Error handlers
     @app.errorhandler(404)
@@ -44,41 +45,33 @@ def create_app(config_name=None):
 # Create app instance
 app = create_app()
 
-@app.route('/')
-def home():
-    """Home page"""
+# @app.route('/')
+# def home():
+#     """Home page"""
     
-    # Get featured products
-    featured_products = Product.query.filter_by(
-        is_featured=True,
-        status='published',
-        is_active=True
-    ).limit(6).all()
+#     # Get featured products
+#     featured_products = Product.query.filter_by(
+#         is_featured=True,
+#         status='published',
+#         is_active=True
+#     ).limit(6).all()
     
-    # Get new arrivals
-    new_arrivals = Product.query.filter_by(
-        is_new_arrival=True,
-        status='published',
-        is_active=True
-    ).order_by(Product.created_at.desc()).limit(6).all()
+#     # Get new arrivals
+#     new_arrivals = Product.query.filter_by(
+#         is_new_arrival=True,
+#         status='published',
+#         is_active=True
+#     ).order_by(Product.created_at.desc()).limit(6).all()
     
-    # Get categories
-    categories = Category.query.filter_by(is_active=True).limit(8).all()
+#     # Get categories
+#     categories = Category.query.filter_by(is_active=True).limit(8).all()
     
-    return render_template('common/index.html',
-                          featured_products=featured_products,
-                          new_arrivals=new_arrivals,
-                          categories=categories)
+#     return render_template('common/index.html',
+#                           featured_products=featured_products,
+#                           new_arrivals=new_arrivals,
+#                           categories=categories)
     
-@app.route('/about')
-def about():
-    """About page"""
-    return render_template('common/about.html')
 
-@app.route('/contact')
-def contact():
-    """About page"""
-    return render_template('common/contact.html')
 
 @app.route('/test-db')
 def test_db():

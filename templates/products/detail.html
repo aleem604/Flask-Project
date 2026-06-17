@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} - MyFlaskApp{% endblock %}
+
+{% block hero_title %}{{ product.name }}{% endblock %}
+{% block hero_text %}{{ product.short_description or 'Premium quality product' }}{% endblock %}
+
+{% block breadcrumb %}
+<span class="separator">/</span>
+<a href="{{ url_for('products.index') }}">Products</a>
+<span class="separator">/</span>
+{% if product.category %}
+<a href="{{ url_for('products.index', category=product.category.slug) }}">{{ product.category.name }}</a>
+<span class="separator">/</span>
+{% endif %}
+<span>{{ product.name }}</span>
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/product-detail.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="product-detail-container">
+    <!-- Main Product Section -->
+    <div class="product-main">
+        <!-- Left: Image Gallery -->
+        <div class="product-gallery">
+            <div class="main-image">
+                {% if product.main_image_url %}
+                <img src="{{ product.main_image_url }}" 
+                     alt="{{ product.name }}" 
+                     id="mainProductImage"
+                     onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/default-product.jpg') }}';">
+                {% else %}
+                <div class="image-placeholder">
+                    <i class="fas fa-image"></i>
+                </div>
+                {% endif %}
+                
+                {% if product.is_on_sale %}
+                <div class="sale-badge-large">SALE</div>
+                {% endif %}
+                
+                {% if product.is_featured %}
+                <div class="featured-badge">Featured</div>
+                {% endif %}
+            </div>
+            
+            <!-- Thumbnails -->
+            <div class="thumbnail-carousel">
+                {% if product.main_image_url %}
+                <div class="thumbnail active" data-image="{{ product.main_image_url }}">
+                    <img src="{{ product.main_image_url }}" alt="Thumbnail 1" 
+                    onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/default-product.jpg') }}';">
+                </div>
+                {% endif %}
+                
+                {% for image in product.gallery_images or [] %}
+                <div class="thumbnail" data-image="{{ image }}">
+                    <img src="{{ image }}" alt="Thumbnail {{ loop.index + 1 }}"
+                    onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/default-product.jpg') }}';">
+                </div>
+                {% endfor %}
+                
+                <!-- If no gallery images, duplicate main image -->
+                {% if not product.gallery_images and product.main_image_url %}
+                <div class="thumbnail" data-image="{{ product.main_image_url }}">
+                    <img src="{{ product.main_image_url }}" alt="Thumbnail 2"
+                    onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/default-product.jpg') }}';">
+                </div>
+                <div class="thumbnail" data-image="{{ product.main_image_url }}">
+                    <img src="{{ product.main_image_url }}" alt="Thumbnail 3"
+                    onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/default-product.jpg') }}';">
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Right: Product Details -->
+        <div class="product-details">
+            <div class="product-header">
+                <div class="product-category">
+                    <i class="fas fa-tag"></i> 
+                    {{ product.category.name if product.category else 'Uncategorized' }}
+                </div>
+                <h1 class="product-title">{{ product.name }}</h1>
+                
+                <div class="product-meta">
+                    <div class="product-rating">
+                        <div class="stars">
+                            {% for i in range(1, 6) %}
+                                {% if i <= product.average_rating|int %}
+                                    <i class="fas fa-star"></i>
+                                {% elif i - 0.5 <= product.average_rating %}
+                                    <i class="fas fa-star-half-alt"></i>
+                                {% else %}
+                                    <i class="far fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <span class="rating-text">{{ "%.1f"|format(product.average_rating) }} / 5.0</span>
+                        <span class="review-count">({{ product.total_reviews }} reviews)</span>
+                    </div>
+                    
+                    <div class="product-sku">
+                        <span>SKU: <strong>{{ product.sku }}</strong></span>
+                        {% if product.brand %}
+                        <span>Brand: <strong>{{ product.brand }}</strong></span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Price -->
+            <div class="product-price-section">
+                {% if product.is_on_sale and product.original_price %}
+                <span class="original-price">${{ "%.2f"|format(product.original_price) }}</span>
+                <span class="current-price">${{ "%.2f"|format(product.price) }}</span>
+                <span class="discount-badge">Save {{ ((product.original_price - product.price) / product.original_price * 100)|round(0)|int }}%</span>
+                {% else %}
+                <span class="current-price">${{ "%.2f"|format(product.price) }}</span>
+                {% endif %}
+            </div>
+            
+            <!-- Stock Status -->
+            <div class="product-stock">
+                {% if product.quantity_in_stock > 0 %}
+                <div class="in-stock">
+                    <i class="fas fa-check-circle"></i> 
+                    <span>In Stock</span>
+                    {% if product.quantity_in_stock < 10 %}
+                    <span class="low-stock-warning">Only {{ product.quantity_in_stock }} left!</span>
+                    {% endif %}
+                </div>
+                <div class="stock-progress">
+                    <div class="stock-bar" style="width: {{ (product.quantity_in_stock / 100 * 100)|round|int if product.quantity_in_stock < 100 else 100 }}%;"></div>
+                </div>
+                {% else %}
+                <div class="out-of-stock">
+                    <i class="fas fa-times-circle"></i> 
+                    <span>Out of Stock</span>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Description -->
+            <div class="product-description">
+                <h3>Description</h3>
+                <p>{{ product.description or 'No description available for this product.' }}</p>
+            </div>
+            
+            <!-- Specifications -->
+            {% if product.specifications %}
+            <div class="product-specifications">
+                <h3><i class="fas fa-cogs"></i> Specifications</h3>
+                <div class="spec-grid">
+                    {% for key, value in product.specifications.items() %}
+                    <div class="spec-item">
+                        <span class="spec-key">{{ key|title }}</span>
+                        <span class="spec-value">{{ value }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Quantity and Actions -->
+            <div class="product-actions">
+                <div class="quantity-selector">
+                    <label for="quantity">Quantity</label>
+                    <div class="quantity-control">
+                        <button onclick="updateQuantity(-1)" id="decrementQty">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <input type="number" id="quantity" value="1" min="1" max="{{ product.quantity_in_stock or 0 }}">
+                        <button onclick="updateQuantity(1)" id="incrementQty">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="add-to-cart-btn" onclick="addToCart({{ product.id }})" 
+                            {% if product.quantity_in_stock <= 0 %}disabled{% endif %}>
+                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    <button class="buy-now-btn" onclick="buyNow({{ product.id }})"
+                            {% if product.quantity_in_stock <= 0 %}disabled{% endif %}>
+                        <i class="fas fa-bolt"></i> Buy Now
+                    </button>
+                </div>
+                
+                <div class="secondary-actions">
+                    <button class="wishlist-btn" onclick="toggleWishlist({{ product.id }})">
+                        <i class="far fa-heart"></i> Add to Wishlist
+                    </button>
+                    <button class="compare-btn" onclick="addToCompare({{ product.id }})">
+                        <i class="fas fa-exchange-alt"></i> Compare
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Shipping Info -->
+            <div class="shipping-info">
+                <div class="info-item">
+                    <i class="fas fa-truck"></i>
+                    <div>
+                        <strong>Free Shipping</strong>
+                        <span>On orders over $50</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-undo"></i>
+                    <div>
+                        <strong>30-Day Returns</strong>
+                        <span>Hassle-free returns</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <div>
+                        <strong>Secure Checkout</strong>
+                        <span>SSL encrypted payment</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Share -->
+            <div class="share-section">
+                <span>Share:</span>
+                <a href="#" onclick="shareProduct('facebook')"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" onclick="shareProduct('twitter')"><i class="fab fa-twitter"></i></a>
+                <a href="#" onclick="shareProduct('whatsapp')"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" onclick="shareProduct('linkedin')"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" onclick="copyLink()"><i class="fas fa-link"></i></a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Related Products -->
+    {% if related_products %}
+    <div class="related-products">
+        <h2>Related Products</h2>
+        <div class="related-grid">
+            {% for related in related_products %}
+            <div class="related-card">
+                <a href="{{ url_for('products.detail', slug=related.slug) }}">
+                    <div class="related-image">
+                        {% if related.main_image_url %}
+                        <img src="{{ related.main_image_url }}" alt="{{ related.name }}" loading="lazy">
+                        {% else %}
+                        <div class="image-placeholder-small">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <h3>{{ related.name }}</h3>
+                    <div class="related-price">${{ "%.2f"|format(related.price) }}</div>
+                    <div class="related-rating">
+                        {% for i in range(1, 6) %}
+                            {% if i <= related.average_rating|int %}
+                                <i class="fas fa-star"></i>
+                            {% else %}
+                                <i class="far fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Toast Notification
+<div id="toast" class="toast">
+    <i class="fas fa-check-circle" id="toastIcon"></i>
+    <span id="toastMessage">Item added to cart!</span>
+</div> -->
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/product-detail.js') }}"></script>
+<script>
+    // Pass product data to JavaScript
+    const productData = {
+        id: {{ product.id }},
+        name: "{{ product.name }}",
+        price: {{ product.price }},
+        maxQuantity: {{ product.quantity_in_stock or 0 }},
+        mainImage: "{{ product.main_image_url or '' }}"
+    };
+</script>
+{% endblock %}

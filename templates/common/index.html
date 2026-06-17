@@ -1,219 +1,270 @@
 {% extends "base.html" %}
 
-{% block title %}Home - MyFlaskApp{% endblock %}
+{% block title %}Dashboard - MyFlaskApp{% endblock %}
 
-{% block hero_title %}Welcome to MyFlaskApp{% endblock %}
-{% block hero_text %}Build amazing web applications with Flask, Jinja, and Python. Fast, secure, and scalable.{% endblock %}
+{% block hero_title %}Dashboard{% endblock %}
+{% block hero_text %}Welcome back, {{ user.full_name or 'User' }}! Here's your overview{% endblock %}
 
 {% block breadcrumb %}
 <span class="separator">/</span>
-<span>Home</span>
+<a href="{{ url_for('home.index') }}">Dashboard</a>
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
 {% endblock %}
 
 {% block content %}
-<!-- Featured Section -->
-<section class="featured-section">
-    <div class="section-header">
-        <h2><i class="fas fa-star"></i> Featured Services</h2>
-        <p>Discover what we offer</p>
-    </div>
-    
-    <div class="featured-grid">
-        <div class="featured-card">
-            <div class="card-icon">
-                <i class="fas fa-code"></i>
+<div class="dashboard-container">
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon revenue">
+                <i class="fas fa-dollar-sign"></i>
             </div>
-            <h3>Web Development</h3>
-            <p>Build modern web applications with Flask, Jinja, and Python.</p>
-            <a href="#" class="card-link">Learn More <i class="fas fa-arrow-right"></i></a>
-        </div>
-        
-        <div class="featured-card">
-            <div class="card-icon">
-                <i class="fas fa-database"></i>
+            <div class="stat-info">
+                <span class="stat-label">Total Revenue</span>
+                <h3 class="stat-number">${{ "%.2f"|format(stats.total_revenue or 0) }}</h3>
+                <span class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> 12.5%
+                </span>
             </div>
-            <h3>Database Integration</h3>
-            <p>Seamless integration with SQL, NoSQL, and cloud databases.</p>
-            <a href="#" class="card-link">Learn More <i class="fas fa-arrow-right"></i></a>
         </div>
-        
-        <div class="featured-card">
-            <div class="card-icon">
-                <i class="fas fa-cloud-upload-alt"></i>
-            </div>
-            <h3>Cloud Deployment</h3>
-            <p>Deploy your applications to AWS, Azure, or Google Cloud.</p>
-            <a href="#" class="card-link">Learn More <i class="fas fa-arrow-right"></i></a>
-        </div>
-        
-        <div class="featured-card">
-            <div class="card-icon">
-                <i class="fas fa-mobile-alt"></i>
-            </div>
-            <h3>Responsive Design</h3>
-            <p>Mobile-first responsive designs that work on all devices.</p>
-            <a href="#" class="card-link">Learn More <i class="fas fa-arrow-right"></i></a>
-        </div>
-    </div>
-</section>
 
-<!-- About Section -->
-<section class="about-section">
-    <div class="about-container">
-        <div class="about-image">
-            <i class="fas fa-rocket"></i>
-        </div>
-        <div class="about-content">
-            <h2><i class="fas fa-info-circle"></i> About Us</h2>
-            <p>We are a passionate team of developers dedicated to creating amazing web applications using Flask and modern web technologies.</p>
-            <div class="about-stats">
-                <div class="stat">
-                    <span class="stat-number">{{100}}+</span>
-                    <span class="stat-label">Projects</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">50+</span>
-                    <span class="stat-label">Clients</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">24/7</span>
-                    <span class="stat-label">Support</span>
-                </div>
+        <div class="stat-card">
+            <div class="stat-icon orders">
+                <i class="fas fa-shopping-bag"></i>
             </div>
-            <a href="{{ url_for('about') }}" class="btn-about">Read More <i class="fas fa-arrow-right"></i></a>
+            <div class="stat-info">
+                <span class="stat-label">Total Orders</span>
+                <h3 class="stat-number">{{ stats.total_orders or 0 }}</h3>
+                <span class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> 8.2%
+                </span>
+            </div>
         </div>
-    </div>
-</section>
 
-<!-- Testimonials Section -->
-<section class="testimonials-section">
-    <div class="section-header">
-        <h2><i class="fas fa-quote-left"></i> What Our Clients Say</h2>
-        <p>Real feedback from real people</p>
-    </div>
-    
-    <div class="testimonials-grid">
-        <div class="testimonial-card">
-            <div class="testimonial-rating">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
+        <div class="stat-card">
+            <div class="stat-icon products">
+                <i class="fas fa-box"></i>
             </div>
-            <p class="testimonial-text">"Amazing service! My Flask application runs smoothly and the support team is incredibly helpful."</p>
-            <div class="testimonial-author">
-                <div class="author-avatar">
-                    <i class="fas fa-user-circle"></i>
-                </div>
-                <div class="author-info">
-                    <h4>John Doe</h4>
-                    <span>CEO, TechCorp</span>
-                </div>
+            <div class="stat-info">
+                <span class="stat-label">Products</span>
+                <h3 class="stat-number">{{ stats.total_products or 0 }}</h3>
+                <span class="stat-change neutral">
+                    <i class="fas fa-minus"></i> 0%
+                </span>
             </div>
         </div>
-        
-        <div class="testimonial-card">
-            <div class="testimonial-rating">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-            </div>
-            <p class="testimonial-text">"The best Flask development team I've worked with. They delivered a high-quality product on time."</p>
-            <div class="testimonial-author">
-                <div class="author-avatar">
-                    <i class="fas fa-user-circle"></i>
-                </div>
-                <div class="author-info">
-                    <h4>Jane Smith</h4>
-                    <span>CTO, StartUp Inc</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="testimonial-card">
-            <div class="testimonial-rating">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-            </div>
-            <p class="testimonial-text">"Professional, efficient, and creative. They transformed our idea into a beautiful web application."</p>
-            <div class="testimonial-author">
-                <div class="author-avatar">
-                    <i class="fas fa-user-circle"></i>
-                </div>
-                <div class="author-info">
-                    <h4>Mike Johnson</h4>
-                    <span>Founder, DevStudio</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- Blog/News Section -->
-<section class="blog-section">
-    <div class="section-header">
-        <h2><i class="fas fa-newspaper"></i> Latest News</h2>
-        <p>Stay updated with our latest posts</p>
-    </div>
-    
-    <div class="blog-grid">
-        <div class="blog-card">
-            <div class="blog-image">
-                <i class="fas fa-python"></i>
+        <div class="stat-card">
+            <div class="stat-icon customers">
+                <i class="fas fa-users"></i>
             </div>
-            <div class="blog-content">
-                <span class="blog-date"><i class="far fa-calendar-alt"></i> June 16, 2026</span>
-                <h3>Getting Started with Flask</h3>
-                <p>Learn the basics of Flask and start building your first web application today.</p>
-                <a href="#" class="blog-link">Read More <i class="fas fa-arrow-right"></i></a>
+            <div class="stat-info">
+                <span class="stat-label">Customers</span>
+                <h3 class="stat-number">{{ stats.total_customers or 0 }}</h3>
+                <span class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> 15.3%
+                </span>
             </div>
         </div>
-        
-        <div class="blog-card">
-            <div class="blog-image">
-                <i class="fas fa-js"></i>
-            </div>
-            <div class="blog-content">
-                <span class="blog-date"><i class="far fa-calendar-alt"></i> June 15, 2026</span>
-                <h3>Jinja Templating Guide</h3>
-                <p>Master Jinja templates and create dynamic, reusable HTML pages for your Flask app.</p>
-                <a href="#" class="blog-link">Read More <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </div>
-        
-        <div class="blog-card">
-            <div class="blog-image">
-                <i class="fas fa-server"></i>
-            </div>
-            <div class="blog-content">
-                <span class="blog-date"><i class="far fa-calendar-alt"></i> June 14, 2026</span>
-                <h3>Deploying Flask Apps</h3>
-                <p>Learn how to deploy your Flask applications to production with best practices.</p>
-                <a href="#" class="blog-link">Read More <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- CTA Section -->
-<section class="cta-section">
-    <div class="cta-container">
-        <h2><i class="fas fa-handshake"></i> Ready to Get Started?</h2>
-        <p>Join thousands of satisfied customers and start building your dream application today.</p>
-        <div class="cta-buttons">
-            <a href="{{ url_for('contact') }}" class="btn-cta-primary">
-                <i class="fas fa-envelope"></i> Contact Us
+        <div class="stat-card">
+            <div class="stat-icon reviews">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="stat-info">
+                <span class="stat-label">Reviews</span>
+                <h3 class="stat-number">{{ stats.total_reviews or 0 }}</h3>
+                <span class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> 5.7%
+                </span>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon conversion">
+                <i class="fas fa-percentage"></i>
+            </div>
+            <div class="stat-info">
+                <span class="stat-label">Conversion Rate</span>
+                <h3 class="stat-number">{{ "%.1f"|format(stats.conversion_rate or 0) }}%</h3>
+                <span class="stat-change positive">
+                    <i class="fas fa-arrow-up"></i> 2.1%
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="charts-grid">
+        <!-- Revenue Chart -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3><i class="fas fa-chart-line"></i> Revenue Overview</h3>
+                <div class="chart-controls">
+                    <select id="revenuePeriod" class="chart-select">
+                        <option value="7">Last 7 Days</option>
+                        <option value="30" selected>Last 30 Days</option>
+                        <option value="90">Last 90 Days</option>
+                        <option value="365">Last Year</option>
+                    </select>
+                </div>
+            </div>
+            <div class="chart-body">
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Orders Chart -->
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3><i class="fas fa-chart-bar"></i> Orders Overview</h3>
+                <div class="chart-controls">
+                    <select id="ordersPeriod" class="chart-select">
+                        <option value="7">Last 7 Days</option>
+                        <option value="30" selected>Last 30 Days</option>
+                        <option value="90">Last 90 Days</option>
+                    </select>
+                </div>
+            </div>
+            <div class="chart-body">
+                <canvas id="ordersChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity & Top Products -->
+    <div class="activity-products-grid">
+        <!-- Recent Activity -->
+        <div class="activity-card">
+            <div class="card-header">
+                <h3><i class="fas fa-clock"></i> Recent Activity</h3>
+                <a href="#" class="view-all">View All</a>
+            </div>
+            <div class="activity-list">
+                {% for activity in recent_activities %}
+                <div class="activity-item">
+                    <div class="activity-icon {{ activity.type }}">
+                        <i class="fas {{ activity.icon }}"></i>
+                    </div>
+                    <div class="activity-content">
+                        <p class="activity-text">{{ activity.text }}</p>
+                        <span class="activity-time">{{ activity.time }}</span>
+                    </div>
+                </div>
+                {% else %}
+                <div class="activity-item">
+                    <p class="no-activity">No recent activity</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Top Products -->
+        <div class="top-products-card">
+            <div class="card-header">
+                <h3><i class="fas fa-trophy"></i> Top Products</h3>
+                <a href="{{ url_for('products.index') }}" class="view-all">View All</a>
+            </div>
+            <div class="product-list">
+                {% for product in top_products %}
+                <div class="product-item">
+                    <div class="product-rank">{{ loop.index }}</div>
+                    <div class="product-info">
+                        <h4>{{ product.name }}</h4>
+                        <span class="product-category">{{ product.category.name if product.category else 'Uncategorized' }}</span>
+                    </div>
+                    <div class="product-stats">
+                        <span class="product-sales">{{ product.total_sales or 0 }} sold</span>
+                        <span class="product-revenue">${{ "%.2f"|format(product.revenue or 0) }}</span>
+                    </div>
+                </div>
+                {% else %}
+                <div class="product-item">
+                    <p class="no-products">No products found</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Sales by Category -->
+    <div class="category-sales-card">
+        <div class="card-header">
+            <h3><i class="fas fa-pie-chart"></i> Sales by Category</h3>
+        </div>
+        <div class="category-grid">
+            {% for category in category_sales %}
+            <div class="category-item">
+                <div class="category-info">
+                    <span class="category-name">
+                        <i class="fas {{ category.icon or 'fa-tag' }}"></i>
+                        {{ category.name }}
+                    </span>
+                    <span class="category-percentage">{{ "%.1f"|format(category.percentage) }}%</span>
+                </div>
+                <div class="category-progress">
+                    <div class="category-bar" style="width: {{ category.percentage }}%; background: {{ category.color }};"></div>
+                </div>
+            </div>
+            {% else %}
+            <div class="category-item">
+                <p class="no-categories">No category data available</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions-card">
+        <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+        <div class="quick-actions-grid">
+            <a href="#" class="quick-action">
+                <i class="fas fa-plus-circle"></i>
+                <span>Add Product</span>
             </a>
-            <a href="#" class="btn-cta-secondary">
-                <i class="fas fa-play"></i> Watch Demo
+            <a href="#" class="quick-action">
+                <i class="fas fa-users"></i>
+                <span>Add Customer</span>
+            </a>
+            <a href="#" class="quick-action">
+                <i class="fas fa-file-invoice"></i>
+                <span>Create Order</span>
+            </a>
+            <a href="#" class="quick-action">
+                <i class="fas fa-envelope"></i>
+                <span>Send Newsletter</span>
+            </a>
+            <a href="#" class="quick-action">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+            <a href="#" class="quick-action">
+                <i class="fas fa-chart-pie"></i>
+                <span>View Reports</span>
             </a>
         </div>
     </div>
-</section>
+</div>
+
+<!-- Toast Notification
+<div id="toast" class="toast">
+    <i class="fas fa-check-circle" id="toastIcon"></i>
+    <span id="toastMessage">Dashboard updated!</span>
+</div> -->
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+<script>
+    // Pass data to JavaScript
+    const dashboardData = {
+        revenueData: {{ revenue_data|tojson|safe }},
+        ordersData: {{ orders_data|tojson|safe }},
+        categoryData: {{ category_data|tojson|safe }}
+    };
+</script>
 {% endblock %}

@@ -23,6 +23,9 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
+    <!-- Page-specific styles -->
+    {% block styles %}{% endblock %}
+
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 </head>
@@ -49,7 +52,7 @@
         <div class="nav-container">
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="{{ url_for('home') }}" class="nav-link {% if request.endpoint == 'home' %}active{% endif %}">
+                    <a href="{{ url_for('home.index') }}" class="nav-link {% if request.endpoint == 'home' %}active{% endif %}">
                         <i class="fas fa-home"></i> Home
                     </a>
                 </li>
@@ -64,12 +67,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url_for('about') }}" class="nav-link {% if 'about' in request.endpoint %}active{% endif %}">
+                    <a href="{{ url_for('home.about') }}" class="nav-link {% if 'about' in request.endpoint %}active{% endif %}">
                         <i class="fas fa-list"></i> About
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url_for('contact') }}" class="nav-link {% if 'contact' in request.endpoint %}active{% endif %}">
+                    <a href="{{ url_for('home.contact') }}" class="nav-link {% if 'contact' in request.endpoint %}active{% endif %}">
                         <i class="fas fa-list"></i> Contact Us
                     </a>
                 </li>
@@ -108,7 +111,7 @@
         <div class="container">
             <!-- Breadcrumb -->
             <div class="breadcrumb">
-                <a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a>
+                <a href="{{ url_for('home.index') }}"><i class="fas fa-home"></i> Home</a>
                 {% block breadcrumb %}{% endblock %}
             </div>
 
@@ -138,9 +141,9 @@
                 <div class="footer-col">
                     <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="{{ url_for('home') }}"><i class="fas fa-chevron-right"></i> Home</a></li>
-                        <li><a href="{{ url_for('about') }}"><i class="fas fa-chevron-right"></i> About Us</a></li>
-                        <li><a href="{{ url_for('contact') }}"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                        <li><a href="{{ url_for('home.index') }}"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="{{ url_for('home.about') }}"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="{{ url_for('home.contact') }}"><i class="fas fa-chevron-right"></i> Contact</a></li>
                         <li><a href="#"><i class="fas fa-chevron-right"></i> Blog</a></li>
                     </ul>
                 </div>
@@ -218,5 +221,8 @@
             }
         });
     </script>
+
+    <!-- Page-specific scripts -->
+    {% block scripts %}{% endblock %}
 </body>
 </html>

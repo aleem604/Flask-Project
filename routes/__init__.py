@@ -1,11 +1,12 @@
-from flask import Blueprint
+from flask import Blueprint   # type: ignore[import]
 
 # Create blueprints
 categories_bp = Blueprint('categories', __name__, url_prefix='/categories')
 products_bp = Blueprint('products', __name__, url_prefix='/products')
 suppliers_bp = Blueprint('suppliers', __name__, url_prefix='/suppliers')
 users_bp = Blueprint('users', __name__, url_prefix='/users')
+home_bp = Blueprint('home', __name__, url_prefix='/')
 # carts_bp = Blueprint('carts', __name__, url_prefix='/carts')
 
 # Import routes
-from . import categories, products, suppliers, users
+from . import categories, products, suppliers, users, common
