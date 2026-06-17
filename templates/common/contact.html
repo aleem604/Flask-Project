@@ -7,7 +7,7 @@
 
 {% block breadcrumb %}
 <span class="separator">/</span>
-<a href="{{ url_for('contact') }}">Contact</a>
+<a href="{{ url_for('home.contact') }}">Contact</a>
 {% endblock %}
 
 {% block content %}
@@ -61,7 +61,7 @@
             <h2><i class="fas fa-paper-plane"></i> Send Us a Message</h2>
             <p>Fill out the form below and we'll get back to you as soon as possible.</p>
             
-            <form id="contactForm" class="contact-form" method="POST" action="{{ url_for('contact') }}">
+            <form id="contactForm" class="contact-form" method="POST" action="{{ url_for('home.contact') }}">
                 <div class="form-row">
                     <div class="form-group">
                         <label for="name">
